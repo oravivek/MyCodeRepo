@@ -1,9 +1,11 @@
 import os
+import oci
 from urllib.parse import urlparse
 
 from pyspark import SparkConf
 from pyspark.sql import SparkSession
 from pyspark.sql.functions import *
+from pyspark.sql import functions as F
 
 # Create a Spark Session
 spark = SparkSession \
@@ -28,5 +30,13 @@ src_df = (
 )  # cache the dataset to increase computing speed
 
 src_df.show(5)
+#src_df.printSchema()
+# Replace the space in column names with '_'
+src_df = src_df.select([F.col(col).alias(col.replace(' ', '_')) for col in src_df.columns])
+
+# Write data to paraquet file on OCI Object Storage Bucket
+src_df.write.mode("overwrite").parquet("oci://Public_Bucket@orasenatdpltintegration01/201306-citibike-tripdata.parquet")
+
+print("Successfully converted {} rows to Parquet and wrote to OCI.".format(src_df.count()))
 
 spark.stop()
