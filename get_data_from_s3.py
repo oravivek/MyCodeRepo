@@ -11,8 +11,8 @@ from pyspark.sql import functions as F
 spark = SparkSession \
     .builder \
     .appName("Data Flow App") \
-    .config("spark.hadoop.fs.s3a.access.key", "AKIAYYHKSFYEGNEUTIEX") \
-    .config("spark.hadoop.fs.s3a.secret.key", "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") \
+    .config("spark.hadoop.fs.s3a.access.key", "**") \
+    .config("spark.hadoop.fs.s3a.secret.key", "**") \
     .config("spark.hadoop.fs.s3a.impl", "org.apache.hadoop.fs.s3a.S3AFileSystem") \
     .getOrCreate()
 
